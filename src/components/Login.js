@@ -40,8 +40,9 @@ const Login = () => {
         alert("logged in successfully");
 
         dispatch(authActions.login(data.idToken));
-        history.replace("/home");
+        history.replace("/compose");
         console.log(data);
+        localStorage.setItem("email", data.email.replace(/[.]/g, ""));
       })
       .catch((err) => {
         console.log(err.message);
