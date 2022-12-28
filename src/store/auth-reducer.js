@@ -4,6 +4,7 @@ const initialToken = localStorage.getItem("token");
 const initialState = {
   token: initialToken,
   isLogedIn: false,
+  emails: [],
 };
 const AuthSlice = createSlice({
   name: "Authentication",
@@ -15,7 +16,11 @@ const AuthSlice = createSlice({
     },
     logout(state) {
       localStorage.removeItem("token");
+      localStorage.removeItem("email");
       state.isLogedIn = false;
+    },
+    addEmails(state, action) {
+      state.emails = action.payload;
     },
   },
 });

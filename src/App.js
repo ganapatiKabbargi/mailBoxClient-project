@@ -4,7 +4,10 @@ import Signup from "./components/Signup";
 import Login from "./components/Login";
 import Home from "./components/Home";
 import ComposeMail from "./pages/ComposeMail";
+import MailDisplay from "./pages/MailDisplay";
+import { useSelector } from "react-redux";
 function App() {
+  const isLogedIn = useSelector((state) => state.auth.isLogedIn);
   return (
     <div className="App">
       <Switch>
@@ -14,9 +17,15 @@ function App() {
         <Route path="/home">
           <Home />
         </Route>
+
         <Route path="/compose">
           <ComposeMail />
         </Route>
+
+        <Route path="/inbox">
+          <MailDisplay />
+        </Route>
+
         <Route path="/signup">
           <Signup />
         </Route>
