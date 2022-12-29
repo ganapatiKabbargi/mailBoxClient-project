@@ -111,7 +111,35 @@ export const updateEmail = (emailObj, id) => {
         dispatch(fetchEmailData(emailObj.to));
         alert("data updated successfully");
       } else {
-        let errorMessage = "sending mail failed";
+        let errorMessage = "updating mail failed";
+        throw new Error(errorMessage);
+      }
+    } catch (err) {
+      alert(err.message);
+    }
+  };
+};
+
+export const removeEmail = (email, type, id) => {
+  let deleteKey;
+  if (type === "inbox") {
+    deleteKey = "inbox";
+  } else if (type === "sent") {
+    deleteKey = "sent";
+  }
+  return async (dispatch) => {
+    try {
+      const response = await fetch(
+        `https://mail-box-client-7d38c-default-rtdb.firebaseio.com/emails/${email}/${deleteKey}/${id}.json`,
+        {
+          method: "DELETE",
+        }
+      );
+      if (response.ok) {
+        alert("mail Deleted Successfully");
+        dispatch(fetchEmailData(email));
+      } else {
+        let errorMessage = "deleting mail failed";
         throw new Error(errorMessage);
       }
     } catch (err) {
