@@ -6,6 +6,7 @@ import Home from "./components/Home";
 import ComposeMail from "./pages/ComposeMail";
 import MailDisplay from "./pages/MailDisplay";
 import { useSelector } from "react-redux";
+import ReadMail from "./pages/ReadMail";
 function App() {
   const isLogedIn = useSelector((state) => state.auth.isLogedIn);
   return (
@@ -21,11 +22,12 @@ function App() {
         <Route path="/compose">
           <ComposeMail />
         </Route>
-
+        <Route path="/email/:emailId" exact>
+          <ReadMail />
+        </Route>
         <Route path="/inbox">
           <MailDisplay />
         </Route>
-
         <Route path="/signup">
           <Signup />
         </Route>

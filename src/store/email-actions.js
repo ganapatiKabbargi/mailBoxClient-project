@@ -66,6 +66,7 @@ export const fetchEmailData = (myMail) => {
             date: body.date,
             subject: body.subject,
             content: body.content,
+            isRead: body.isRead,
           });
         }
 
@@ -78,10 +79,37 @@ export const fetchEmailData = (myMail) => {
             date: body.date,
             subject: body.subject,
             content: body.content,
+            isRead: body.isRead,
           });
         }
 
         dispatch(emailActions.updateEmailData({ receivedMail, sentMail }));
+      } else {
+        let errorMessage = "sending mail failed";
+        throw new Error(errorMessage);
+      }
+    } catch (err) {
+      alert(err.message);
+    }
+  };
+};
+
+export const updateEmail = (emailObj, id) => {
+  return async (dispatch) => {
+    try {
+      const response = await fetch(
+        `https://mail-box-client-7d38c-default-rtdb.firebaseio.com/emails/${emailObj.to}/inbox/${id}.json`,
+        {
+          method: "PUT",
+          body: JSON.stringify(emailObj),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (response.ok) {
+        dispatch(fetchEmailData(emailObj.to));
+        alert("data updated successfully");
       } else {
         let errorMessage = "sending mail failed";
         throw new Error(errorMessage);

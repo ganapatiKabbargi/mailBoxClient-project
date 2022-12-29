@@ -6,9 +6,9 @@ import EmailList from "../components/emailList/EmailList";
 import SideBar from "../components/MailboxSideBar";
 
 const MailDisplay = () => {
-  const sentmails = useSelector((state) => state.email.sentMails);
+  const inboxMails = useSelector((state) => state.email.receivedMails);
 
-  const mails = sentmails.map((mail) => {
+  const mails = inboxMails.map((mail) => {
     return <EmailList mails={mail} />;
   });
 

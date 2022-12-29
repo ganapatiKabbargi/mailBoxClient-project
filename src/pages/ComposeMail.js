@@ -35,6 +35,7 @@ const ComposeMail = () => {
       subject: subject,
       date: new Date(),
       content: editorState,
+      isRead: false,
     };
 
     dispatch(addEmailData(Email, mailData));
