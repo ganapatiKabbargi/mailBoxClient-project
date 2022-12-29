@@ -6,7 +6,7 @@ const initialState = {
   sentMails: [],
   receivedMails: [],
   isInbox: true,
-  isSentBox: false,
+  isSent: false,
 };
 const emailSlice = createSlice({
   name: "email",
@@ -18,7 +18,11 @@ const emailSlice = createSlice({
     },
     fetchInboxData(state) {
       state.isInbox = true;
-      state.isSentBox = false;
+      state.isSent = false;
+    },
+    fetchSentData(state) {
+      state.isInbox = false;
+      state.isSent = true;
     },
   },
 });

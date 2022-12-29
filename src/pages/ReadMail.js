@@ -6,13 +6,19 @@ import SideBar from "../components/MailboxSideBar";
 import { updateEmail } from "../store/email-actions";
 
 const ReadMail = () => {
-  const inboxMails = useSelector((state) => state.email.receivedMails);
-  const emailList = useSelector((state) => state.email);
+  const emailAuth = useSelector((state) => state.email);
   const dispatch = useDispatch();
   const history = useHistory();
   const params = useParams();
 
-  let Email = inboxMails.find((element) => {
+  let mails = "";
+  if (emailAuth.isInbox) {
+    mails = emailAuth.receivedMails;
+  } else if (emailAuth.isSent) {
+    mails = emailAuth.sentMails;
+  }
+
+  let Email = mails.find((element) => {
     return element.id === params.emailId;
   });
 
@@ -20,7 +26,7 @@ const ReadMail = () => {
 
   console.log(mail);
   const clickHandler = () => {
-    if (emailList.isInbox && mail.isRead === false) {
+    if (emailAuth.isInbox && mail.isRead === false) {
       mail.isRead = true;
 
       dispatch(updateEmail(mail, params.emailId));
@@ -39,7 +45,7 @@ const ReadMail = () => {
         >
           <div className="d-flex justify-content-between border-bottom border-success border-2">
             <p className="fw-bold">From :{mail.from}</p>
-            <p>{mail.date}</p>
+            <p>{mail.date.slice(0, 10)}</p>
           </div>
           <p className="mb-5 border-bottom border-success border-2 py-2">
             To :{mail.to}

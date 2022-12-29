@@ -1,14 +1,22 @@
 import React, { Fragment } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useSelector } from "react-redux";
 import Navbar from "../components/Navbar";
 import EmailList from "../components/emailList/EmailList";
 import SideBar from "../components/MailboxSideBar";
+import { FiSend } from "react-icons/fi";
+import { MdOutlineCallReceived } from "react-icons/md";
 
 const MailDisplay = () => {
-  const inboxMails = useSelector((state) => state.email.receivedMails);
+  const mailAuth = useSelector((state) => state.email);
 
-  const mails = inboxMails.map((mail) => {
+  let data;
+  if (mailAuth.isInbox) {
+    data = mailAuth.receivedMails;
+  } else if (mailAuth.isSent) {
+    data = mailAuth.sentMails;
+  }
+
+  const mails = data.map((mail) => {
     return <EmailList mails={mail} />;
   });
 
@@ -18,8 +26,11 @@ const MailDisplay = () => {
       <div className="d-flex">
         <SideBar />
         <div style={{ width: "1180px" }}>
-          <div className="my-2">
-            <h4 className="text-center">Recieved mails</h4>
+          <div className="mb-2 p-2 " style={{ backgroundColor: "#9678b6" }}>
+            <h3 className=" text-white">
+              {mailAuth.isInbox ? <MdOutlineCallReceived /> : <FiSend />}{" "}
+              {mailAuth.isInbox ? "Recieved mails" : "Sent Mails"}
+            </h3>
           </div>
           <ul className="p-0">{mails}</ul>
         </div>

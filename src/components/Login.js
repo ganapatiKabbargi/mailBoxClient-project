@@ -1,7 +1,9 @@
-import React, { useRef } from "react";
+import React, { Fragment, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { authActions } from "../store/auth-reducer";
+import { loginUser } from "../store/auth-actions";
+import Navbar from "./Navbar";
 
 const Login = () => {
   const inputEmailRef = useRef("");
@@ -13,6 +15,13 @@ const Login = () => {
     e.preventDefault();
     const enteredEmail = inputEmailRef.current.value;
     const enteredPassword = inputPasswordRef.current.value;
+
+    // const user={
+    //   email:enteredEmail,
+    //   password:enteredPassword
+    // }
+
+    // dispatch(loginUser(user))
 
     fetch(
       "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCTKn5CsxdDR7yTIq_QV3sF2VVqgeq_qRE",
@@ -40,7 +49,7 @@ const Login = () => {
         alert("logged in successfully");
 
         dispatch(authActions.login(data.idToken));
-        history.replace("/compose");
+        history.replace("/inbox");
         console.log(data);
         localStorage.setItem("email", data.email.replace(/[.]/g, ""));
       })
@@ -53,47 +62,50 @@ const Login = () => {
     history.push("/signup");
   };
   return (
-    <div className=" shadow w-25  rounded m-auto mt-5">
-      <form className=" w-100 p-3 " onSubmit={loginHandler}>
-        <h2 className="text-center">Login</h2>
-        <div className="mb-3">
-          <label htmlFor="formGroupExampleInput" className="form-label">
-            Email
-          </label>
-          <input
-            type="email"
-            className="form-control"
-            required
-            ref={inputEmailRef}
-          />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="formGroupExampleInput2" className="form-label">
-            Password
-          </label>
-          <input
-            type="password"
-            className="form-control"
-            required
-            ref={inputPasswordRef}
-          />
-        </div>
+    <Fragment>
+      <Navbar />
+      <div className=" shadow w-25  rounded m-auto mt-5">
+        <form className=" w-100 p-3 " onSubmit={loginHandler}>
+          <h2 className="text-center">Login</h2>
+          <div className="mb-3">
+            <label htmlFor="formGroupExampleInput" className="form-label">
+              Email
+            </label>
+            <input
+              type="email"
+              className="form-control"
+              required
+              ref={inputEmailRef}
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="formGroupExampleInput2" className="form-label">
+              Password
+            </label>
+            <input
+              type="password"
+              className="form-control"
+              required
+              ref={inputPasswordRef}
+            />
+          </div>
 
+          <div>
+            <button className="btn btn-primary w-100 mt-2 p-2">Login</button>
+          </div>
+        </form>
         <div>
-          <button className="btn btn-primary w-100 mt-2 p-2">Login</button>
+          <button className="btn w-100 mb-2 text-primary">
+            Forgot Password?
+          </button>
         </div>
-      </form>
-      <div>
-        <button className="btn w-100 mb-2 text-primary">
-          Forgot Password?
-        </button>
+        <div>
+          <button className="btn w-100 mb-2 " onClick={signupHandler}>
+            Dont have an account? SignUp
+          </button>
+        </div>
       </div>
-      <div>
-        <button className="btn w-100 mb-2 " onClick={signupHandler}>
-          Dont have an account? SignUp
-        </button>
-      </div>
-    </div>
+    </Fragment>
   );
 };
 

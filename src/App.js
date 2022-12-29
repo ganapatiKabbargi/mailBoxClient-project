@@ -5,10 +5,17 @@ import Login from "./components/Login";
 import Home from "./components/Home";
 import ComposeMail from "./pages/ComposeMail";
 import MailDisplay from "./pages/MailDisplay";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ReadMail from "./pages/ReadMail";
+import { fetchEmailData } from "./store/email-actions";
+import { useEffect } from "react";
+
 function App() {
-  const isLogedIn = useSelector((state) => state.auth.isLogedIn);
+  const emailAuth = useSelector((state) => state.email);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchEmailData(emailAuth.email));
+  }, []);
   return (
     <div className="App">
       <Switch>

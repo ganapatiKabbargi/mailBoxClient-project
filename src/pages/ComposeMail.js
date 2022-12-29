@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { addEmailData } from "../store/email-actions";
 import Navbar from "../components/Navbar";
 import SideBar from "../components/MailboxSideBar";
+import { FiSend } from "react-icons/fi";
 
 const ComposeMail = () => {
   const inputEmailRef = useRef("");
@@ -23,7 +24,7 @@ const ComposeMail = () => {
     setEditorState(text);
   };
 
-  const ClickHandler = (e) => {
+  const clickHandler = (e) => {
     e.preventDefault();
     const enteredEmail = inputEmailRef.current.value;
     let usermail = localStorage.getItem("email");
@@ -45,7 +46,11 @@ const ComposeMail = () => {
       <Navbar />
       <div className="d-flex">
         <SideBar />
-        <div className="bg-light w-50 m-auto py-4 px-2 rounded shadow mt-5">
+        <form
+          className=" w-50  bg-light m-auto py-4 px-2 rounded shadow mt-5"
+          onSubmit={clickHandler}
+          style={{}}
+        >
           <div className="border-bottom border-primary border-2 pb-2">
             <label>To </label>
             <input
@@ -53,6 +58,7 @@ const ComposeMail = () => {
               className="border-0 ms-2"
               style={{ width: "95%" }}
               ref={inputEmailRef}
+              required
             />
           </div>
           <div className="border-bottom border-primary border-2 py-2">
@@ -75,11 +81,11 @@ const ComposeMail = () => {
             />
           </div>
           <div>
-            <button className="btn btn-primary mt-2" onClick={ClickHandler}>
-              Send
+            <button className="btn btn-primary mt-2">
+              Send <FiSend className="mb-1 ms-2" />
             </button>
           </div>
-        </div>
+        </form>
       </div>
     </Fragment>
   );
