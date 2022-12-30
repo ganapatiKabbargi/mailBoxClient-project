@@ -7,6 +7,7 @@ import { removeEmail } from "../../store/email-actions";
 const EmailList = (props) => {
   const history = useHistory();
   const emailAuth = useSelector((state) => state.email);
+  const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   let dataType;
@@ -33,17 +34,17 @@ const EmailList = (props) => {
 
   let date = props.mails.date.toLocaleString().slice(0, 10);
 
-  const clickHandler = () => {
+  const readMailHandler = () => {
     history.push(`/email/${props.mails.id}`);
   };
 
   const removeHandler = () => {
-    dispatch(removeEmail(emailAuth.email, dataType, props.mails.id));
+    dispatch(removeEmail(auth.email, dataType, props.mails.id));
   };
   return (
     <Fragment>
       <li className="d-flex justify-content-between align-items-center border-bottom border-2 p-2 rounded">
-        <div className="d-flex">
+        <div className="d-flex" onClick={readMailHandler}>
           {!props.mails.isRead && emailAuth.isInbox && (
             <div
               className="me-3 mt-2 bg-primary"
@@ -51,7 +52,7 @@ const EmailList = (props) => {
             ></div>
           )}
           <div className="me-5 fw-bold">{mail}</div>
-          <div onClick={clickHandler}>{shortContent}</div>
+          <div>{shortContent}</div>
         </div>
         <div className="d-flex  justify-content-between align-items-center">
           <div>{date}</div>

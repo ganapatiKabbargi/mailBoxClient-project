@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { authActions } from "../store/auth-reducer";
 import { loginUser } from "../store/auth-actions";
+import { fetchEmailData } from "../store/email-actions";
 import Navbar from "./Navbar";
 
 const Login = () => {
@@ -46,12 +47,17 @@ const Login = () => {
         }
       })
       .then((data) => {
+        dispatch(fetchEmailData(data.email.replace(/[.]/g, "")));
         alert("logged in successfully");
-
-        dispatch(authActions.login(data.idToken));
+        dispatch(
+          authActions.login({
+            token: data.idToken,
+            email: data.email.replace(/[.]/g, ""),
+          })
+        );
         history.replace("/inbox");
-        console.log(data);
-        localStorage.setItem("email", data.email.replace(/[.]/g, ""));
+        // console.log(data);
+        // localStorage.setItem("email", data.email.replace(/[.]/g, ""));
       })
       .catch((err) => {
         console.log(err.message);

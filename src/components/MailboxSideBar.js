@@ -7,8 +7,9 @@ import { FiSend } from "react-icons/fi";
 import { MdOutlineCallReceived } from "react-icons/md";
 
 const SideBar = () => {
-  const mailAuth = useSelector((state) => state.email);
+  const mailAuth = useSelector((state) => state.auth);
   const inboxMails = useSelector((state) => state.email.receivedMails);
+  const usermail = localStorage.getItem("email");
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -20,7 +21,8 @@ const SideBar = () => {
   });
 
   const inboxHandler = () => {
-    dispatch(fetchEmailData(mailAuth.email));
+    console.log(usermail);
+    dispatch(fetchEmailData(usermail));
     dispatch(emailActions.fetchInboxData());
 
     history.push("/inbox");
@@ -28,7 +30,7 @@ const SideBar = () => {
 
   const sentHandler = () => {
     dispatch(emailActions.fetchSentData());
-    dispatch(fetchEmailData(mailAuth.email));
+    dispatch(fetchEmailData(usermail));
     history.push("/inbox");
   };
 

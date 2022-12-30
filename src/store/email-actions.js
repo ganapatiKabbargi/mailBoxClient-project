@@ -49,6 +49,13 @@ export const fetchEmailData = (myMail) => {
 
       if (response.ok) {
         const data = await response.json();
+        // if (data === null) {
+        //   let sentMail = [];
+        //   let receivedMail = [];
+        //   dispatch(emailActions.updateEmailData({ receivedMail, sentMail }));
+        //   return;
+        // }
+
         console.log(data);
         const sentMails = data.sent;
         const receivedMails = data.inbox;
@@ -109,7 +116,7 @@ export const updateEmail = (emailObj, id) => {
       );
       if (response.ok) {
         dispatch(fetchEmailData(emailObj.to));
-        alert("data updated successfully");
+        // alert("data updated successfully");
       } else {
         let errorMessage = "updating mail failed";
         throw new Error(errorMessage);

@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import Navbar from "../components/Navbar";
 import EmailList from "../components/emailList/EmailList";
 import SideBar from "../components/MailboxSideBar";
+
 import { FiSend } from "react-icons/fi";
 import { MdOutlineCallReceived } from "react-icons/md";
 

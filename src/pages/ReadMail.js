@@ -25,12 +25,13 @@ const ReadMail = () => {
   const mail = { ...Email };
 
   console.log(mail);
-  const clickHandler = () => {
-    if (emailAuth.isInbox && mail.isRead === false) {
-      mail.isRead = true;
+  if (emailAuth.isInbox && mail.isRead === false) {
+    mail.isRead = true;
 
-      dispatch(updateEmail(mail, params.emailId));
-    }
+    dispatch(updateEmail(mail, params.emailId));
+  }
+
+  const clickHandler = () => {
     history.push("/inbox");
   };
 

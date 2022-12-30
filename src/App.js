@@ -11,11 +11,11 @@ import { fetchEmailData } from "./store/email-actions";
 import { useEffect } from "react";
 
 function App() {
-  const emailAuth = useSelector((state) => state.email);
+  const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchEmailData(emailAuth.email));
-  }, []);
+    dispatch(fetchEmailData(auth.email));
+  }, [auth.email]);
   return (
     <div className="App">
       <Switch>

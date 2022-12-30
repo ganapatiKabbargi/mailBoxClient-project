@@ -7,10 +7,12 @@ import { addEmailData } from "../store/email-actions";
 import Navbar from "../components/Navbar";
 import SideBar from "../components/MailboxSideBar";
 import { FiSend } from "react-icons/fi";
+import { useHistory } from "react-router-dom";
 
 const ComposeMail = () => {
   const inputEmailRef = useRef("");
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const [editorState, setEditorState] = useState("");
   const [subject, setSubject] = useState("");
@@ -40,6 +42,7 @@ const ComposeMail = () => {
     };
 
     dispatch(addEmailData(Email, mailData));
+    history.push("/inbox");
   };
   return (
     <Fragment>

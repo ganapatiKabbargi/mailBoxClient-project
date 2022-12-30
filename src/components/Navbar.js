@@ -35,9 +35,11 @@ const Navbar = () => {
             Search
           </button>
 
-          <button className="btn fs-5 text-white" onClick={logoutHandler}>
-            Logout
-          </button>
+          {logedIn && (
+            <button className="btn fs-5 text-white" onClick={logoutHandler}>
+              Logout
+            </button>
+          )}
         </form>
       </div>
     </nav>
