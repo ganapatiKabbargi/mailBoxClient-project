@@ -18,49 +18,12 @@ const Signup = () => {
     const enteredPassword = inputPasswordRef.current.value;
     const enteredConfirmPassword = inputConfirmPassword.current.value;
 
-    // const userDetails = {
-    //   email: enteredEmail,
-    //   password: enteredPassword,
-    //   confirmPassword: enteredConfirmPassword,
-    // };
-    // dispatch(signupUser(userDetails));
-    if (enteredPassword === enteredConfirmPassword) {
-      fetch(
-        "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCTKn5CsxdDR7yTIq_QV3sF2VVqgeq_qRE",
-        {
-          method: "POST",
-          body: JSON.stringify({
-            email: enteredEmail,
-            password: enteredPassword,
-            returnSecureToken: true,
-          }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
-        .then((response) => {
-          if (response.ok) {
-            enteredEmail = "";
-            enteredPassword = "";
-            enteredConfirmPassword = "";
-            return response.json();
-          } else {
-            let errorMessage = "Authentication Failed...";
-            throw new Error(errorMessage);
-          }
-        })
-        .then((data) => {
-          alert("Successfully Signed Up...");
-          console.log("Successfully Signed Up...");
-          history.push("/login");
-        })
-        .catch((err) => {
-          alert(err.message);
-        });
-    } else {
-      alert("Password Incorrect");
-    }
+    const userDetails = {
+      email: enteredEmail,
+      password: enteredPassword,
+      confirmPassword: enteredConfirmPassword,
+    };
+    dispatch(signupUser(userDetails, history));
   };
 
   const loginHandler = () => {
@@ -70,7 +33,13 @@ const Signup = () => {
   return (
     <Fragment>
       <Navbar />
-      <div className=" shadow w-25  rounded m-auto mt-5">
+      <div
+        className=" shadow w-25  rounded mx-auto  text-light"
+        style={{
+          background: " linear-gradient(to right, #42275a , #734b6d)",
+          marginTop: "130px",
+        }}
+      >
         <form className=" w-100 p-3 " onSubmit={signupHandler}>
           <h2 className="text-center">SignUp</h2>
           <div className="mb-3">
@@ -107,11 +76,18 @@ const Signup = () => {
             />
           </div>
           <div>
-            <button className="btn btn-primary w-100 mt-2 p-2">Signup</button>
+            <button
+              className="btn w-100 mt-2 p-2 text-light"
+              style={{
+                background: " linear-gradient(to right, #02aab0 , #00cdac)",
+              }}
+            >
+              Signup
+            </button>
           </div>
         </form>
         <div>
-          <button className="btn w-100 mb-2 " onClick={loginHandler}>
+          <button className="btn w-100 mb-2 text-light" onClick={loginHandler}>
             Already have an account? Login
           </button>
         </div>

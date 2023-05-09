@@ -1,0 +1,7 @@
+.email-item:hover {
+  background-color: rgb(176, 151, 190);
+  color: white;
+}
+.email-item {
+  background-color: rgb(255, 255, 255);
+}

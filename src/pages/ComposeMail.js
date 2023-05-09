@@ -2,12 +2,14 @@ import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
 import React, { Fragment, useRef, useState } from "react";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addEmailData } from "../store/email-actions";
 import Navbar from "../components/Navbar";
 import SideBar from "../components/MailboxSideBar";
 import { FiSend } from "react-icons/fi";
 import { useHistory } from "react-router-dom";
+import { themeActions } from "../store/theme-reducer";
+import Notification from "../UI/Notification";
 
 const ComposeMail = () => {
   const inputEmailRef = useRef("");
@@ -16,6 +18,7 @@ const ComposeMail = () => {
 
   const [editorState, setEditorState] = useState("");
   const [subject, setSubject] = useState("");
+  const notification = useSelector((state) => state.theme.notification);
 
   const updateTextDescripton = (state) => {
     let text = "";
@@ -31,64 +34,115 @@ const ComposeMail = () => {
     const enteredEmail = inputEmailRef.current.value;
     let usermail = localStorage.getItem("email");
     let Email = enteredEmail.replace(/[.]/g, "");
+    let todayDate = new Date();
+    let sentDate =
+      todayDate.getDate() +
+      "/" +
+      todayDate.getMonth() +
+      1 +
+      "/" +
+      todayDate.getFullYear() +
+      " ";
+    let hour =
+      todayDate.getHours() > 12
+        ? 24 - todayDate.getHours()
+        : "0" + todayDate.getHours();
+    let a = todayDate.getHours() > 12 ? "pm" : "am";
+    let minutes =
+      todayDate.getMinutes() < 10
+        ? "0" + todayDate.getMinutes()
+        : todayDate.getMinutes();
+
+    let sentTime = hour + ":" + minutes + a;
+    let sentMailDateAndTime = sentDate;
 
     const mailData = {
       from: usermail,
       to: Email,
       subject: subject,
-      date: new Date(),
+      date: sentMailDateAndTime,
       content: editorState,
       isRead: false,
     };
 
-    dispatch(addEmailData(Email, mailData));
+    dispatch(addEmailData(Email, mailData, history));
+    dispatch(themeActions.sent());
+
+    // history.push("/inbox");
+  };
+
+  const closeHandler = () => {
     history.push("/inbox");
   };
   return (
     <Fragment>
       <Navbar />
-      <div className="d-flex">
-        <SideBar />
+      <div
+        className="d-flex"
+        style={{ backgroundColor: "lightgrey", height: "100vh" }}
+      >
+        <SideBar />(
         <form
-          className=" w-50  bg-light m-auto py-4 px-2 rounded shadow mt-5"
+          className=" w-50  bg-light mx-auto pb-2 rounded shadow "
+          style={{ marginLeft: "480px", marginTop: "180px", height: "380px" }}
           onSubmit={clickHandler}
-          style={{}}
         >
-          <div className="border-bottom border-primary border-2 pb-2">
-            <label>To </label>
+          <div
+            className="px-2 py-2 text-white fs-4 fw-bold d-flex justify-content-between"
+            style={{
+              borderRadius: "8px 8px 0px 0px",
+              backgroundColor: "#51087E",
+            }}
+          >
+            <div>
+              <FiSend className="mb-1 mx-2" /> New Mail
+            </div>
+            <button className="btn text-light  fs-5" onClick={closeHandler}>
+              X
+            </button>
+          </div>
+          <div className="border-bottom border-secondary border-2 pb-2 p-2 fw-bold">
+            {/* <label>To </label> */}
             <input
               type="email"
-              className="border-0 ms-2"
+              className="border-0 ms-2 bg-light px-2"
               style={{ width: "95%" }}
               ref={inputEmailRef}
+              placeholder="to"
               required
             />
           </div>
-          <div className="border-bottom border-primary border-2 py-2">
-            <label>Subject</label>
+          <div className="border-bottom border-secondary border-2 py-2 p-2 fw-bold">
+            {/* <label>Subject</label> */}
             <input
               type="text"
-              className=" border-0 ms-2"
+              className=" border-0 ms-2 bg-light px-2 "
               style={{ width: "90%" }}
               onChange={(e) => setSubject(e.target.value)}
+              placeholder="subject"
             />
           </div>
-          <div className=" mt-2 border-bottom border-primary border-2">
-            <label>ComposeMail</label>
+          <div className=" mt-2 border-bottom border-secondary border-2 p-2 ">
+            {/* <label>ComposeMail</label> */}
             <Editor
               value={editorState}
               toolbarClassName="toolbarClassName "
               wrapperClassName="wrapperClassName bg-light p-2"
-              editorClassName="editorClassName bg-white "
+              editorClassName="editorClassName bg-white"
               onContentStateChange={updateTextDescripton}
+              placeholder="write your mail here"
             />
           </div>
-          <div>
-            <button className="btn btn-primary mt-2">
-              Send <FiSend className="mb-1 ms-2" />
+          <div className="px-2 ">
+            <button
+              className="btn mt-2 text-white"
+              style={{ marginLeft: "600px", backgroundColor: "blue" }}
+            >
+              Send email
             </button>
           </div>
         </form>
+        )
       </div>
     </Fragment>
   );

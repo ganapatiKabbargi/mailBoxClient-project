@@ -13,10 +13,17 @@ const Navbar = () => {
     dispatch(authActions.logout());
     history.replace("/login");
   };
+
+  console.log("Navbar RUNNING...");
   return (
     <nav
       className="navbar navbar-light  shadow "
-      style={{ backgroundColor: "#6C0BA9" }}
+      style={{
+        background: " linear-gradient(to right, #ad5389 , #3c1053)",
+        position: "fixed",
+        width: "100%",
+        top: "0px",
+      }}
     >
       <div className="container-fluid" style={{ height: "60px" }}>
         <a className="navbar-brand text-white fs-2 fw-bold">
@@ -36,7 +43,10 @@ const Navbar = () => {
           </button>
 
           {logedIn && (
-            <button className="btn fs-5 text-white" onClick={logoutHandler}>
+            <button
+              className="btn fs-5 text-white ms-5"
+              onClick={logoutHandler}
+            >
               Logout
             </button>
           )}
@@ -46,4 +56,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default React.memo(Navbar);

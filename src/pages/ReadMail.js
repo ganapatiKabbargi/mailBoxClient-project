@@ -23,11 +23,9 @@ const ReadMail = () => {
   });
 
   const mail = { ...Email };
-
   console.log(mail);
   if (emailAuth.isInbox && mail.isRead === false) {
     mail.isRead = true;
-
     dispatch(updateEmail(mail, params.emailId));
   }
 
@@ -38,12 +36,27 @@ const ReadMail = () => {
   return (
     <Fragment>
       <Navbar />
-      <div className="d-flex">
+      <div
+        className="d-flex "
+        style={{ backgroundColor: "lightgrey", height: "100vh" }}
+      >
         <SideBar />
         <div
-          className="shadow rounded p-4 border border-primary m-5"
-          style={{ width: "1000px", height: "600px" }}
+          className="shadow rounded px-4 border border-primary  bg-light"
+          style={{
+            width: "1000px",
+            height: "600px",
+            marginLeft: "360px",
+            marginTop: "100px",
+          }}
         >
+          <button
+            className="btn fs-5 mb-2 fw-bold "
+            style={{ marginLeft: "920px" }}
+            onClick={clickHandler}
+          >
+            X
+          </button>
           <div className="d-flex justify-content-between border-bottom border-success border-2">
             <p className="fw-bold">From :{mail.from}</p>
             <p>{mail.date.slice(0, 10)}</p>
@@ -54,14 +67,6 @@ const ReadMail = () => {
 
           <h5>{mail.subject}</h5>
           <p>{mail.content}</p>
-
-          <button
-            className="btn btn-primary "
-            style={{ position: "absolute", top: "650px" }}
-            onClick={clickHandler}
-          >
-            close
-          </button>
         </div>
       </div>
     </Fragment>

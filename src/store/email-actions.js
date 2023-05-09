@@ -1,35 +1,32 @@
 import { emailActions } from "./email-reducer";
+import useFetch from "../customHooks/useFetch";
+import { themeActions } from "./theme-reducer";
 
-export const addEmailData = (email, body) => {
+export const addEmailData = (email, body, h) => {
   return async (dispatch) => {
     try {
-      const response = await fetch(
-        `https://mail-box-client-7d38c-default-rtdb.firebaseio.com/emails/${email}/inbox.json`,
-        {
-          method: "POST",
-          body: JSON.stringify(body),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
+      const response = await useFetch(
+        `https://mail-box-client-app-e1828-default-rtdb.firebaseio.com/emails/${email}/inbox.json`,
+        "POST",
+        body
       );
 
       if (response) {
+        dispatch(themeActions.showNotification());
+        h.push("/inbox");
         console.log("in");
         let sEmail = localStorage.getItem("email");
-        const response2 = await fetch(
-          `https://mail-box-client-7d38c-default-rtdb.firebaseio.com/emails/${sEmail}/sent.json`,
-          {
-            method: "POST",
-            body: JSON.stringify(body),
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
+
+        const response2 = await useFetch(
+          `https://mail-box-client-app-e1828-default-rtdb.firebaseio.com/emails/${sEmail}/sent.json`,
+          "POST",
+          body
         );
         const myMail = localStorage.getItem("email");
+
         dispatch(fetchEmailData(myMail));
-        alert("mail sent Successfully");
+
+        // alert("mail sent Successfully");
       } else {
         const errorMessage = "sending mail failed...";
         throw new Error(errorMessage);
@@ -43,18 +40,24 @@ export const addEmailData = (email, body) => {
 export const fetchEmailData = (myMail) => {
   return async (dispatch) => {
     try {
-      const response = await fetch(
-        `https://mail-box-client-7d38c-default-rtdb.firebaseio.com/emails/${myMail}.json`
+      dispatch(themeActions.showLoading());
+      // const response = await fetch(
+      //   `https://mail-box-client-app-e1828-default-rtdb.firebaseio.com/emails/${myMail}.json`
+      // );
+      const response = await useFetch(
+        `https://mail-box-client-app-e1828-default-rtdb.firebaseio.com/emails/${myMail}.json`
       );
 
       if (response.ok) {
+        dispatch(themeActions.hideLoading());
+
         const data = await response.json();
-        // if (data === null) {
-        //   let sentMail = [];
-        //   let receivedMail = [];
-        //   dispatch(emailActions.updateEmailData({ receivedMail, sentMail }));
-        //   return;
-        // }
+        if (data === null) {
+          let sentMail = [];
+          let receivedMail = [];
+          dispatch(emailActions.updateEmailData({ receivedMail, sentMail }));
+          return;
+        }
 
         console.log(data);
         const sentMails = data.sent;
@@ -104,15 +107,10 @@ export const fetchEmailData = (myMail) => {
 export const updateEmail = (emailObj, id) => {
   return async (dispatch) => {
     try {
-      const response = await fetch(
-        `https://mail-box-client-7d38c-default-rtdb.firebaseio.com/emails/${emailObj.to}/inbox/${id}.json`,
-        {
-          method: "PUT",
-          body: JSON.stringify(emailObj),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
+      const response = await useFetch(
+        `https://mail-box-client-app-e1828-default-rtdb.firebaseio.com/emails/${emailObj.to}/inbox/${id}.json`,
+        "PUT",
+        emailObj
       );
       if (response.ok) {
         dispatch(fetchEmailData(emailObj.to));
@@ -136,15 +134,14 @@ export const removeEmail = (email, type, id) => {
   }
   return async (dispatch) => {
     try {
-      const response = await fetch(
-        `https://mail-box-client-7d38c-default-rtdb.firebaseio.com/emails/${email}/${deleteKey}/${id}.json`,
-        {
-          method: "DELETE",
-        }
+      const response = await useFetch(
+        `https://mail-box-client-app-e1828-default-rtdb.firebaseio.com/emails/${email}/${deleteKey}/${id}.json`,
+        "DELETE"
       );
       if (response.ok) {
-        alert("mail Deleted Successfully");
+        // alert("mail Deleted Successfully");
         dispatch(fetchEmailData(email));
+        dispatch(themeActions.showNotification());
       } else {
         let errorMessage = "deleting mail failed";
         throw new Error(errorMessage);

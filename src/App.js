@@ -8,16 +8,20 @@ import MailDisplay from "./pages/MailDisplay";
 import { useDispatch, useSelector } from "react-redux";
 import ReadMail from "./pages/ReadMail";
 import { fetchEmailData } from "./store/email-actions";
-import { useEffect } from "react";
+import { useEffect, Fragment } from "react";
+import Loader from "./UI/Loader";
+import Notification from "./UI/Notification";
 
 function App() {
   const auth = useSelector((state) => state.auth);
+  const notification = useSelector((state) => state.theme.notification);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchEmailData(auth.email));
   }, [auth.email]);
   return (
-    <div className="App">
+    <div className="App ">
+      {/* {notification && <Notification />} */}
       <Switch>
         <Route path="/" exact>
           <Redirect to="/login"></Redirect>
@@ -25,7 +29,6 @@ function App() {
         <Route path="/home">
           <Home />
         </Route>
-
         <Route path="/compose">
           <ComposeMail />
         </Route>

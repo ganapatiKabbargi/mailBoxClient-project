@@ -1,8 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-// const initialMail = localStorage.getItem("email");
 const initialState = {
-  // email: initialMail,
   sentMails: [],
   receivedMails: [],
   isInbox: true,
