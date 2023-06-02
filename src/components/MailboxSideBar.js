@@ -1,7 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { fetchEmailData } from "../store/email-actions";
 import { emailActions } from "../store/email-reducer";
 import { FiSend } from "react-icons/fi";
 import { RiEditFill } from "react-icons/ri";
@@ -75,6 +74,7 @@ const SideBar = () => {
           <RiEditFill /> Compose
         </button>
       </div>
+
       <SidebarItem>
         <button className="btn  w-100   py-3 text-light" onClick={inboxHandler}>
           <MdMail className="mb-1 me-3" /> Inbox
@@ -85,7 +85,7 @@ const SideBar = () => {
             width: "23px",
             height: "23px",
             borderRadius: "40%",
-            position: "absolute",
+            // position: "absolute",
             left: "200px",
             top: "238px",
             backgroundColor: "orange",

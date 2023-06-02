@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   loader: false,
   notification: false,
-  action: "",
+  message: "",
 };
 const themeSlice = createSlice({
   name: "theme",
@@ -21,15 +21,9 @@ const themeSlice = createSlice({
     hideNotification(state) {
       state.notification = false;
     },
-    sent(state) {
-      state.action = "Mail Sent Successfully";
+    setmessage(state, action) {
+      state.message = action.payload;
     },
-    remove(state) {
-      state.action = "Mail Deleted Successfully";
-    },
-    login(state){
-      state.action ="Logged In Successfully"
-    }
   },
 });
 

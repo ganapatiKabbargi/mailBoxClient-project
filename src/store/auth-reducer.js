@@ -12,14 +12,10 @@ const AuthSlice = createSlice({
   initialState: initialState,
   reducers: {
     login(state, action) {
-      localStorage.setItem("token", action.payload.token);
-      localStorage.setItem("email", action.payload.email);
       state.email = action.payload.email;
       state.isLogedIn = true;
     },
     logout(state) {
-      localStorage.removeItem("token");
-      localStorage.removeItem("email");
       state.isLogedIn = false;
     },
   },

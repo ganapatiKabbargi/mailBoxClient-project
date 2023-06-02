@@ -32,7 +32,7 @@ const MailDisplay = () => {
       <div className="d-flex">
         <SideBar />
         {notification && <Notification />}
-        {loader && !notification && <Loader />}
+        {loader || (notification && <Loader />)}
         {!loader && !notification && (
           <div
             style={{
@@ -60,7 +60,7 @@ const MailDisplay = () => {
               </h3>
             </div>
             {m ? (
-              <h4 className="text-center text-light mt-5">
+              <h4 className="text-center text-light mt-5 pt-5">
                 {" "}
                 {mailAuth.isInbox
                   ? "Your inbox is Empty"

@@ -13,7 +13,7 @@
   /* margin-top: 20px;  */
   top: 100px;
   left: 600px;
-  animation: slide 400ms ease;
+  animation: slide 2000ms ease;
 }
 
 /* .dismiss {
@@ -135,9 +135,13 @@
     opacity: 0.5;
     transform: translatey(-50px);
   }
-  100% {
+  50% {
     opacity: 1;
     transform: translatey(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translatey(-50px);
   }
   /* 80% {
     opacity: 1;

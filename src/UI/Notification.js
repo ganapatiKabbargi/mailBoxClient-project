@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { themeActions } from "../store/theme-reducer";
 
 const Notification = (props) => {
-  const action = useSelector((state) => state.theme.action);
+  const message = useSelector((state) => state.theme.message);
   const dispatch = useDispatch();
   const clickHandler = () => {
     dispatch(themeActions.hideNotification());
@@ -40,12 +40,12 @@ const Notification = (props) => {
           </svg>
         </div>
         <div className="content">
-          <span className="title">{action} </span>
+          <span className="title">{message} </span>
         </div>
         <div className="actions">
-          <button className="history" type="button" onClick={clickHandler}>
+          {/* <button className="history" type="button" onClick={clickHandler}>
             OK
-          </button>
+          </button> */}
         </div>
       </div>
     </div>

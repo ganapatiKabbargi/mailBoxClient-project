@@ -10,6 +10,8 @@ const Navbar = () => {
   const history = useHistory();
 
   const logoutHandler = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("email");
     dispatch(authActions.logout());
     history.replace("/login");
   };

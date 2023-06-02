@@ -8,7 +8,7 @@ export const signupUser = (user, history) => {
     try {
       if (user.password === user.confirmPassword) {
         const response = await useFetch(
-          "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyC_eCmdM7pQpEIvUfGbYddKeVdeROi_MdA",
+          "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDknLL9nsPlM6E13GGeLsg584YffuV7MT0",
           "POST",
           {
             email: user.email,
@@ -17,8 +17,13 @@ export const signupUser = (user, history) => {
           }
         );
         if (response.ok) {
-          alert("Successfully Signed Up...");
+          dispatch(themeActions.showNotification());
+          setTimeout(() => {
+            dispatch(themeActions.hideNotification());
+          }, 2000);
+          // alert("Successfully Signed Up...");
           console.log("Successfully Signed Up...");
+          dispatch(themeActions.hideLoading());
           history.push("/login");
         } else {
           let errorMessage = "Authentication Failed...";
@@ -37,7 +42,7 @@ export const loginUser = (user, history) => {
   return async (dispatch) => {
     try {
       const response = await useFetch(
-        "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyC_eCmdM7pQpEIvUfGbYddKeVdeROi_MdA",
+        "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDknLL9nsPlM6E13GGeLsg584YffuV7MT0",
         "POST",
         {
           email: user.email,
@@ -48,6 +53,9 @@ export const loginUser = (user, history) => {
       if (response.ok) {
         const data = await response.json();
         dispatch(themeActions.showNotification());
+        setTimeout(() => {
+          dispatch(themeActions.hideNotification());
+        }, 2000);
         dispatch(fetchEmailData(data.email.replace(/[.]/g, "")));
         dispatch(
           authActions.login({
@@ -57,8 +65,8 @@ export const loginUser = (user, history) => {
         );
         dispatch(themeActions.hideLoading());
         console.log(data);
-        // localStorage.setItem("email", data.email.replace(/[.]/g, ""));
-        // alert("logged in successfully");
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("email", data.email.replace(/[.]/g, ""));
         history.replace("/inbox");
       } else {
         let errorMessage = "login failed...";

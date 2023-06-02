@@ -38,8 +38,7 @@ const ComposeMail = () => {
     let sentDate =
       todayDate.getDate() +
       "/" +
-      todayDate.getMonth() +
-      1 +
+      (+todayDate.getMonth() + 1) +
       "/" +
       todayDate.getFullYear() +
       " ";
@@ -66,7 +65,7 @@ const ComposeMail = () => {
     };
 
     dispatch(addEmailData(Email, mailData, history));
-    dispatch(themeActions.sent());
+    dispatch(themeActions.setmessage("Mail Sent Successfully"));
 
     // history.push("/inbox");
   };
@@ -84,7 +83,7 @@ const ComposeMail = () => {
         <SideBar />(
         <form
           className=" w-50  bg-light mx-auto pb-2 rounded shadow "
-          style={{ marginLeft: "480px", marginTop: "180px", height: "380px" }}
+          style={{ marginLeft: "480px", marginTop: "180px", height: "430px" }}
           onSubmit={clickHandler}
         >
           <div
@@ -128,7 +127,7 @@ const ComposeMail = () => {
               value={editorState}
               toolbarClassName="toolbarClassName "
               wrapperClassName="wrapperClassName bg-light p-2"
-              editorClassName="editorClassName bg-white"
+              editorClassName="editorClassName bg-white pb-5"
               onContentStateChange={updateTextDescripton}
               placeholder="write your mail here"
             />

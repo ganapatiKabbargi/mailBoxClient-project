@@ -38,25 +38,36 @@ const EmailList = (props) => {
   };
 
   const removeHandler = () => {
-    dispatch(themeActions.remove());
+    dispatch(themeActions.setmessage("Mail Deleted Successfully"));
     dispatch(removeEmail(auth.email, dataType, props.mails.id));
   };
+
   return (
     <Fragment>
       <li className="d-flex justify-content-between align-items-center  p-2 mb-1 rounded email-item">
         <div className="d-flex" onClick={readMailHandler}>
-          {!props.mails.isRead && emailAuth.isInbox && (
+          <div className=" fw-bold d-flex" style={{ width: "260px" }}>
             <div
-              className="me-3 mt-2 bg-primary"
-              style={{ borderRadius: "50%", width: "10px", height: "10px" }}
+              className="me-3 mt-1"
+              style={{
+                border: "2px solid grey",
+                width: "16px",
+                height: "16px",
+              }}
             ></div>
-          )}
-          <div className="me-5 fw-bold ">{mail}</div>
+            {!props.mails.isRead && emailAuth.isInbox && (
+              <div
+                className="me-3 mt-2 bg-primary"
+                style={{ borderRadius: "50%", width: "10px", height: "10px" }}
+              ></div>
+            )}
+            {mail}
+          </div>
           <div style={{ width: "800px" }}>{shortContent}</div>
         </div>
         <div className="d-flex  justify-content-between align-items-center ">
           <span>{props.mails.date.slice(0, 10)}</span>
-          <button className="btn" onClick={removeHandler}>
+          <button className="btn border-0" onClick={removeHandler}>
             <MdDelete
               size={"20px"}
               className=" ms-5"

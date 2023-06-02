@@ -3,6 +3,7 @@ import { useRef } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { signupUser } from "../store/auth-actions";
+import { themeActions } from "../store/theme-reducer";
 import Navbar from "./Navbar";
 
 const Signup = () => {
@@ -13,6 +14,8 @@ const Signup = () => {
   const dispatch = useDispatch();
 
   const signupHandler = (e) => {
+    dispatch(themeActions.showLoading());
+    dispatch(themeActions.setmessage("Signed Up Successfully"));
     e.preventDefault();
     const enteredEmail = inputEmailRef.current.value;
     const enteredPassword = inputPasswordRef.current.value;
@@ -34,10 +37,9 @@ const Signup = () => {
     <Fragment>
       <Navbar />
       <div
-        className=" shadow w-25  rounded mx-auto  text-light"
+        className=" shadow w-25   mx-auto  "
         style={{
-          background: " linear-gradient(to right, #42275a , #734b6d)",
-          marginTop: "130px",
+          marginTop: "160px",
         }}
       >
         <form className=" w-100 p-3 " onSubmit={signupHandler}>
@@ -77,9 +79,10 @@ const Signup = () => {
           </div>
           <div>
             <button
-              className="btn w-100 mt-2 p-2 text-light"
+              className="btn w-100 mt-2 p-2 text-light "
               style={{
                 background: " linear-gradient(to right, #02aab0 , #00cdac)",
+                border: "none",
               }}
             >
               Signup
@@ -87,7 +90,7 @@ const Signup = () => {
           </div>
         </form>
         <div>
-          <button className="btn w-100 mb-2 text-light" onClick={loginHandler}>
+          <button className="btn w-100 mb-4  border-0" onClick={loginHandler}>
             Already have an account? Login
           </button>
         </div>

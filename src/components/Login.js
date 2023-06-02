@@ -1,11 +1,10 @@
 import React, { Fragment, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { authActions } from "../store/auth-reducer";
 import { loginUser } from "../store/auth-actions";
-import { fetchEmailData } from "../store/email-actions";
 import Navbar from "./Navbar";
 import { themeActions } from "../store/theme-reducer";
+import Notification from "../UI/Notification";
 import Loader from "../UI/Loader";
 
 const Login = () => {
@@ -14,10 +13,11 @@ const Login = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const loader = useSelector((state) => state.theme.loader);
+  const notification = useSelector((state) => state.theme.notification);
 
   const loginHandler = (e) => {
     dispatch(themeActions.showLoading());
-    dispatch(themeActions.login());
+    dispatch(themeActions.setmessage("Logged In Successfully"));
     e.preventDefault();
     const enteredEmail = inputEmailRef.current.value;
     const enteredPassword = inputPasswordRef.current.value;
@@ -37,13 +37,14 @@ const Login = () => {
   return (
     <Fragment>
       <Navbar />
-      {loader && <Loader />}
-      {!loader && (
+      {loader || (notification && <Loader />)}
+      {notification && <Notification />}
+      {!loader && !notification && (
         <div
-          className=" shadow w-25  rounded mx-auto  text-light"
+          className=" shadow w-25   mx-auto  "
           style={{
-            background: " linear-gradient(to right, #4e54c8 , #8f94fb)",
-            marginTop: "130px",
+            // background: " linear-gradient(to right, #4e54c8 , #8f94fb)",
+            marginTop: "160px",
           }}
         >
           <form className=" w-100 p-3 " onSubmit={loginHandler}>
@@ -71,11 +72,18 @@ const Login = () => {
               />
             </div>
 
-            <div>
+            <div className="d-flex justify-content-start">
+              <button className="btn  mb-2 " style={{ border: "none" }}>
+                Forgot Password?
+              </button>
+            </div>
+
+            <div className="d-flex justify-content-center">
               <button
-                className="btn w-100 mt-2 p-2 text-light"
+                className="btn w-100 mt-2 p-2 text-light btn-primary"
                 style={{
                   background: " linear-gradient(to right, #00b09b , #96c93b)",
+                  border: "none",
                 }}
               >
                 Login
@@ -83,14 +91,10 @@ const Login = () => {
             </div>
           </form>
           <div>
-            <button className="btn w-100 mb-2 text-light">
-              Forgot Password?
-            </button>
-          </div>
-          <div>
             <button
-              className="btn w-100 mb-2 text-light"
+              className="btn w-100 mb-4 border-0"
               onClick={signupHandler}
+              // style={{ border: "none" }}
             >
               Dont have an account? SignUp
             </button>
